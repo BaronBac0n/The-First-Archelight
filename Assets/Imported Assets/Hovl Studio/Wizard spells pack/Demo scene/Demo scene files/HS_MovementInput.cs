@@ -508,6 +508,7 @@ public class HS_MovementInput : MonoBehaviour
                     {
                         soundComponentCast = PrefabsCast[EffectNumber].GetComponent<AudioSource>();
                     }
+                    print("C");
                     StartCoroutine(OnCast(EffectNumber));
                     StartCoroutine(Attack(EffectNumber));
                     //Use ult after main skill
@@ -517,6 +518,7 @@ public class HS_MovementInput : MonoBehaviour
                 }
                 else if (Input.GetMouseButtonDown(1))
                 {
+                    //cancel aoe aim
                     aim.enabled = true;
                     TargetMarker.SetActive(false);
                     yield break;
@@ -533,6 +535,7 @@ public class HS_MovementInput : MonoBehaviour
                 soundComponent = Prefabs[EffectNumber].GetComponent<AudioSource>();
             }
             casting = true;
+            print("E");
             StartCoroutine(Attack(EffectNumber));
             yield break;
         }
@@ -540,6 +543,7 @@ public class HS_MovementInput : MonoBehaviour
             yield break;
     }
 
+    //this seems to be on spells that have a circle area indicator
     IEnumerator OnCast(int EffectNumber)
     {
         while (true)
@@ -567,6 +571,7 @@ public class HS_MovementInput : MonoBehaviour
                     {
                         CastSoundPlay();
                     }
+                    currEffect.GetComponent<SpellStats>().OnCast();
                     yield return new WaitForSeconds(castingTime[EffectNumber]);
                     yield break;
                 }
@@ -585,6 +590,7 @@ public class HS_MovementInput : MonoBehaviour
 
     public IEnumerator Attack(int EffectNumber)
     {
+        print("B");
         //Block moving after using the skill
         canMove = false;
         SetAnimZero();
